@@ -1,0 +1,39 @@
+---
+title: "Advanced water cost model"
+author: "Xiangyu Liu"
+date: "2018/3/12"
+output: html_document
+---
+
+I added the water table depth data into 'awwadata.csv' and rerun the water cost model.
+```{r}
+library(dplyr)
+awwa2<- read.csv("awwadata2.csv")
+
+```
+
+##deal with the independent and dependent variables
+```{r}
+
+awwa2$costs<-gsub(",","",awwa2$ISBeforeDepreciation)%>%as.numeric()
+awwa2$SurfaceMG<-awwa2$Surface*awwa2$AnnualMGallonsSoldTotal/100
+awwa2$GroundMG<-awwa2$Ground*awwa2$AnnualMGallonsSoldTotal/100
+awwa2$PurchasesMG<-awwa2$Purchases*awwa2$AnnualMGallonsSoldTotal/100
+```
+##run the fixed effect model
+```{r}
+library(plm)
+zz <- plm(costs ~ SurfaceMG + GroundMG + PurchasesMG, data = awwa2,model="pooling")
+zz <- plm(costs ~ SurfaceMG + GroundMG + PurchasesMG + depth, data = awwa2, model = "between")
+summary(zz)
+
+```
+
+
+##run the quantile regression model
+```{r}
+library(quantreg)
+Qreg50=rq(awwa2$costs~awwa2$SurfaceMG+awwa2$GroundMG+awwa2$PurchasesMG+awwa2$depth, tau=0.50)
+summary(Qreg50)
+```
+
