@@ -15,7 +15,7 @@ library(ncdf)
 install.packages("ncdf4")
 library(ncdf4)
 ##open the nc file
-ncfile<-nc_open("/Users/xiangyu/Desktop/RA/raw data/N_America_model_wtd_v2.nc")
+ncfile<-nc_open("N_America_model_wtd_v2.nc")
 
 ##get the longitude data
 lon <- ncvar_get(ncfile,"lon")
@@ -70,7 +70,8 @@ library(rgeos)
 library(sp)
 library(rgdal)
 ##read the shapefile
-counties <- readOGR('/Users/xiangyu/Desktop/RA/cb_2016_us_county_500k.shp')
+counties <- readOGR('cb_2016_us_county_500k.shp')
+#counties <- readOGR('cb_2016_us_county_500k.shp') for the year 2000
 ##red the points
 nona <-read.csv("wtd.csv")
 nona <-as.data.frame(nona)
