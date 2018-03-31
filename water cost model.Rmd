@@ -1,7 +1,7 @@
 ---
 title: "Advanced water cost model"
 author: "Xiangyu Liu"
-date: "2018/3/12"
+date: "2018/3/29"
 output: html_document
 ---
 
@@ -37,3 +37,30 @@ Qreg50=rq(awwa2$costs~awwa2$SurfaceMG+awwa2$GroundMG+awwa2$PurchasesMG+awwa2$dep
 summary(Qreg50)
 ```
 
+##add depth * GroundMG
+```{r}
+awwa2$depthGroundMG<-awwa2$depth*awwa2$GroundMG
+zz <- plm(costs ~ SurfaceMG + GroundMG + PurchasesMG + depthGroundMG, data = awwa2, model = "between")
+summary(zz)
+```
+
+The 'depth * GroundMG' variable is still not significant... 
+ 
+ 
+## only for the gw part
+```{r}
+awwa3<-awwa2[awwa2$Ground == 100.000,]
+zz <- plm(costs ~ GroundMG + depth, data = awwa3, model = "between")
+summary(zz)
+```
+
+For the regression model only for the gw part, the depth variable is significant!
+
+## % of gw in relation to depth to groundwater 
+```{r}
+awwa2$percentofgw <- awwa2$Ground /(awwa2$Ground+awwa2$Surface)
+zz <- plm(percentofgw ~ depth, data = awwa2, model = "between")
+summary(zz)
+```
+
+Here we can find that when a facility decide to use groundwater or surface water, the depth to groundwater has a significant influence.

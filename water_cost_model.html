@@ -209,6 +209,104 @@ summary(Qreg50)</code></pre>
 ## awwa2$PurchasesMG    2846.0960    2025.8898    4617.1867
 ## awwa2$depth          -439.0612   -1619.7711    1016.6313</code></pre>
 </div>
+<div id="add-depth-groundmg" class="section level2">
+<h2>add depth * GroundMG</h2>
+<pre class="r"><code>awwa2$depthGroundMG&lt;-awwa2$depth*awwa2$GroundMG
+zz &lt;- plm(costs ~ SurfaceMG + GroundMG + PurchasesMG + depthGroundMG, data = awwa2, model = &quot;between&quot;)
+summary(zz)</code></pre>
+<pre><code>## Oneway (individual) effect Between Model
+## 
+## Call:
+## plm(formula = costs ~ SurfaceMG + GroundMG + PurchasesMG + depthGroundMG, 
+##     data = awwa2, model = &quot;between&quot;)
+## 
+## Unbalanced Panel: n = 320, T = 1-1, N = 320
+## Observations used in estimation: 320
+## 
+## Residuals:
+##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -1.88e+08 -1.04e+07 -8.25e+06  0.00e+00  6.84e+05  3.03e+08 
+## 
+## Coefficients:
+##                 Estimate Std. Error t-value  Pr(&gt;|t|)    
+## (Intercept)   9.9956e+06 2.6634e+06  3.7530 0.0002080 ***
+## SurfaceMG     1.6067e+03 1.3660e+02 11.7626 &lt; 2.2e-16 ***
+## GroundMG      1.6580e+03 4.9250e+02  3.3665 0.0008556 ***
+## PurchasesMG   3.0861e+03 2.1703e+02 14.2198 &lt; 2.2e-16 ***
+## depthGroundMG 2.7775e-01 4.5323e-01  0.6128 0.5404430    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Total Sum of Squares:    1.3123e+18
+## Residual Sum of Squares: 5.5224e+17
+## R-Squared:      0.57918
+## Adj. R-Squared: 0.57384
+## F-statistic: 108.385 on 4 and 315 DF, p-value: &lt; 2.22e-16</code></pre>
+<p>The ‘depth * GroundMG’ variable is still not significant…</p>
+</div>
+<div id="only-for-the-gw-part" class="section level2">
+<h2>only for the gw part</h2>
+<pre class="r"><code>awwa3&lt;-awwa2[awwa2$Ground == 100.000,]
+zz &lt;- plm(costs ~ GroundMG + depth, data = awwa3, model = &quot;between&quot;)
+summary(zz)</code></pre>
+<pre><code>## Oneway (individual) effect Between Model
+## 
+## Call:
+## plm(formula = costs ~ GroundMG + depth, data = awwa3, model = &quot;between&quot;)
+## 
+## Unbalanced Panel: n = 47, T = 1-1, N = 47
+## Observations used in estimation: 47
+## 
+## Residuals:
+##      Min.   1st Qu.    Median   3rd Qu.      Max. 
+## -29468241  -6303773  -1673806   2597713  42629650 
+## 
+## Coefficients:
+##                Estimate  Std. Error t-value  Pr(&gt;|t|)    
+## (Intercept) -7358762.17  4192038.96 -1.7554  0.086149 .  
+## GroundMG        2098.46      228.77  9.1726 8.941e-12 ***
+## depth           8561.41     2585.65  3.3111  0.001862 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Total Sum of Squares:    2.1801e+16
+## Residual Sum of Squares: 7.196e+15
+## R-Squared:      0.66993
+## Adj. R-Squared: 0.65492
+## F-statistic: 44.6518 on 2 and 44 DF, p-value: 2.567e-11</code></pre>
+<p>For the regression model only for the gw part, the depth variable is significant!</p>
+</div>
+<div id="of-gw-in-relation-to-depth-to-groundwater" class="section level2">
+<h2>% of gw in relation to depth to groundwater</h2>
+<pre class="r"><code>awwa2$percentofgw &lt;- awwa2$Ground /(awwa2$Ground+awwa2$Surface)
+zz &lt;- plm(percentofgw ~ depth, data = awwa2, model = &quot;between&quot;)
+summary(zz)</code></pre>
+<pre><code>## Oneway (individual) effect Between Model
+## 
+## Call:
+## plm(formula = percentofgw ~ depth, data = awwa2, model = &quot;between&quot;)
+## 
+## Unbalanced Panel: n = 249, T = 1-1, N = 249
+## Observations used in estimation: 249
+## 
+## Residuals:
+##     Min.  1st Qu.   Median  3rd Qu.     Max. 
+## -0.77393 -0.35350 -0.24599  0.47360  0.79484 
+## 
+## Coefficients:
+##               Estimate Std. Error t-value  Pr(&gt;|t|)    
+## (Intercept) 1.8661e-01 5.5773e-02  3.3459 0.0009479 ***
+## depth       1.9577e-04 4.2554e-05  4.6004 6.743e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Total Sum of Squares:    51.568
+## Residual Sum of Squares: 47.498
+## R-Squared:      0.078921
+## Adj. R-Squared: 0.075192
+## F-statistic: 21.1637 on 1 and 247 DF, p-value: 6.7425e-06</code></pre>
+<p>Here we can find that when a facility decide to use groundwater or surface water, the depth to groundwater has a significant influence.</p>
+</div>
 
 
 
