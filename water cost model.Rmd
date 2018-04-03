@@ -56,6 +56,12 @@ summary(zz)
 
 For the regression model only for the gw part, the depth variable is significant!
 
+## only for the gw part(multiple)
+```{r}
+zz <- plm(costs ~ depthGroundMG, data = awwa3, model = "between")
+summary(zz)
+```
+
 ## % of gw in relation to depth to groundwater 
 ```{r}
 awwa2$percentofgw <- awwa2$Ground /(awwa2$Ground+awwa2$Surface)

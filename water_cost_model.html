@@ -120,7 +120,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Advanced water cost model</h1>
 <h4 class="author"><em>Xiangyu Liu</em></h4>
-<h4 class="date"><em>2018/3/12</em></h4>
+<h4 class="date"><em>2018/3/29</em></h4>
 
 </div>
 
@@ -275,6 +275,35 @@ summary(zz)</code></pre>
 ## Adj. R-Squared: 0.65492
 ## F-statistic: 44.6518 on 2 and 44 DF, p-value: 2.567e-11</code></pre>
 <p>For the regression model only for the gw part, the depth variable is significant!</p>
+</div>
+<div id="only-for-the-gw-partmultiple" class="section level2">
+<h2>only for the gw part(multiple)</h2>
+<pre class="r"><code>zz &lt;- plm(costs ~ depthGroundMG, data = awwa3, model = &quot;between&quot;)
+summary(zz)</code></pre>
+<pre><code>## Oneway (individual) effect Between Model
+## 
+## Call:
+## plm(formula = costs ~ depthGroundMG, data = awwa3, model = &quot;between&quot;)
+## 
+## Unbalanced Panel: n = 47, T = 1-1, N = 47
+## Observations used in estimation: 47
+## 
+## Residuals:
+##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -13837455  -8320708  -6236970         0  -2169283 100889324 
+## 
+## Coefficients:
+##                 Estimate Std. Error t-value  Pr(&gt;|t|)    
+## (Intercept)   8.9023e+06 3.4064e+06  2.6134 0.0121473 *  
+## depthGroundMG 1.0341e+00 2.7802e-01  3.7196 0.0005513 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Total Sum of Squares:    2.1801e+16
+## Residual Sum of Squares: 1.6675e+16
+## R-Squared:      0.23516
+## Adj. R-Squared: 0.21816
+## F-statistic: 13.8356 on 1 and 45 DF, p-value: 0.00055133</code></pre>
 </div>
 <div id="of-gw-in-relation-to-depth-to-groundwater" class="section level2">
 <h2>% of gw in relation to depth to groundwater</h2>
