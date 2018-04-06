@@ -276,8 +276,8 @@ summary(zz)</code></pre>
 ## F-statistic: 44.6518 on 2 and 44 DF, p-value: 2.567e-11</code></pre>
 <p>For the regression model only for the gw part, the depth variable is significant!</p>
 </div>
-<div id="only-for-the-gw-partmultiple" class="section level2">
-<h2>only for the gw part(multiple)</h2>
+<div id="only-for-the-gw-partdepthgroundmg" class="section level2">
+<h2>only for the gw part(depth*GroundMG)</h2>
 <pre class="r"><code>zz &lt;- plm(costs ~ depthGroundMG, data = awwa3, model = &quot;between&quot;)
 summary(zz)</code></pre>
 <pre><code>## Oneway (individual) effect Between Model
@@ -304,6 +304,74 @@ summary(zz)</code></pre>
 ## R-Squared:      0.23516
 ## Adj. R-Squared: 0.21816
 ## F-statistic: 13.8356 on 1 and 45 DF, p-value: 0.00055133</code></pre>
+</div>
+<div id="only-for-the-gw-partdepth-groundmg-depthgroundmg" class="section level2">
+<h2>only for the gw part(depth + GroundMG + depth*GroundMG)</h2>
+<pre class="r"><code>zz &lt;- plm(costs ~ depth+GroundMG + depthGroundMG, data = awwa3, model = &quot;between&quot;)
+summary(zz)</code></pre>
+<pre><code>## Oneway (individual) effect Between Model
+## 
+## Call:
+## plm(formula = costs ~ depth + GroundMG + depthGroundMG, data = awwa3, 
+##     model = &quot;between&quot;)
+## 
+## Unbalanced Panel: n = 47, T = 1-1, N = 47
+## Observations used in estimation: 47
+## 
+## Residuals:
+##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -14794731  -5927649  -2152823         0   3710964  29534516 
+## 
+## Coefficients:
+##                  Estimate  Std. Error t-value  Pr(&gt;|t|)    
+## (Intercept)   -1.5127e+07  3.7546e+06 -4.0289 0.0002242 ***
+## depth          1.5886e+04  2.5788e+03  6.1603 2.137e-07 ***
+## GroundMG       3.3634e+03  3.1865e+02 10.5550 1.633e-13 ***
+## depthGroundMG -1.3212e+00  2.7053e-01 -4.8835 1.481e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Total Sum of Squares:    2.1801e+16
+## Residual Sum of Squares: 4.6288e+15
+## R-Squared:      0.78768
+## Adj. R-Squared: 0.77287
+## F-statistic: 53.1753 on 3 and 43 DF, p-value: 1.6111e-14</code></pre>
+</div>
+<div id="costgroundmgunit-depth" class="section level2">
+<h2>cost/GroundMG(unit) ~ depth</h2>
+<pre class="r"><code>##calculate the unit
+awwa3$unitcost&lt;-awwa3$cost/awwa3$GroundMG
+
+##delete the Inf row
+d&lt;-awwa3[c(1:4,6:43),]
+
+zz &lt;- plm(unitcost ~ depth, data = d, model = &quot;between&quot;)
+
+summary(zz)</code></pre>
+<pre><code>## Oneway (individual) effect Between Model
+## 
+## Call:
+## plm(formula = unitcost ~ depth, data = d, model = &quot;between&quot;)
+## 
+## Unbalanced Panel: n = 42, T = 1-1, N = 42
+## Observations used in estimation: 42
+## 
+## Residuals:
+##     Min.  1st Qu.   Median  3rd Qu.     Max. 
+## -2938.47 -1259.65  -423.95   691.13  8009.52 
+## 
+## Coefficients:
+##               Estimate Std. Error t-value Pr(&gt;|t|)  
+## (Intercept) 1366.84842  631.85020  2.1632  0.03655 *
+## depth          1.11709    0.44216  2.5264  0.01558 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Total Sum of Squares:    171440000
+## Residual Sum of Squares: 147850000
+## R-Squared:      0.13761
+## Adj. R-Squared: 0.11605
+## F-statistic: 6.38272 on 1 and 40 DF, p-value: 0.015584</code></pre>
 </div>
 <div id="of-gw-in-relation-to-depth-to-groundwater" class="section level2">
 <h2>% of gw in relation to depth to groundwater</h2>
