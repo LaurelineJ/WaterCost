@@ -20,7 +20,6 @@ awwa2$SurfaceMG<-awwa2$Surface*awwa2$AnnualMGallonsSoldTotal/100
 awwa2$GroundMG<-awwa2$Ground*awwa2$AnnualMGallonsSoldTotal/100
 awwa2$PurchasesMG<-awwa2$Purchases*awwa2$AnnualMGallonsSoldTotal/100
 ```
-
 ##run the fixed effect model
 ```{r}
 library(plm)
@@ -56,32 +55,6 @@ summary(zz)
 ```
 
 For the regression model only for the gw part, the depth variable is significant!
-
-## only for the gw part(depth*GroundMG)
-```{r}
-zz <- plm(costs ~ depthGroundMG, data = awwa3, model = "between")
-summary(zz)
-```
-
-## only for the gw part(depth + GroundMG + depth*GroundMG)
-
-```{r}
-zz <- plm(costs ~ depth+GroundMG + depthGroundMG, data = awwa3, model = "between")
-summary(zz)
-```
-
-##cost/GroundMG(unit) ~ depth
-```{r}
-##calculate the unit
-awwa3$unitcost<-awwa3$cost/awwa3$GroundMG
-
-##delete the Inf row
-d<-awwa3[c(1:4,6:43),]
-
-zz <- plm(unitcost ~ depth, data = d, model = "between")
-
-summary(zz)
-```
 
 ## % of gw in relation to depth to groundwater 
 ```{r}
