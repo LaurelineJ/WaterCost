@@ -64,3 +64,9 @@ summary(zz)
 ```
 
 Here we can find that when a facility decide to use groundwater or surface water, the depth to groundwater has a significant influence.
+
+
+## unit cost per facility
+
+facility- 对应的所有county 【same name - find the nearest county
+

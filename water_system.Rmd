@@ -1,0 +1,164 @@
+---
+title: "county to fips"
+author: "Xiangyu Liu"
+date: "2018/4/20"
+output: html_document
+---
+
+```{r}
+water_system<-read.csv("/Users/xiangyu/Desktop/RA/water_system_summary.csv")
+water_system
+library(stringr)
+##extract the state
+state<-str_sub(water_system$PWS.ID,1,2)%>%as.data.frame()
+water_system<-cbind(water_system,state)
+names(water_system)[11]<-paste('state')
+```
+
+```{r}
+##split the counties of each facility
+library(splitstackshape)
+water_system<-cSplit(water_system, "Counties.Served", ",")
+```
+
+## get the state, county fip
+```{r}
+install.packages("noncensus")
+library(noncensus)
+data(counties)
+counties$county_name<-gsub(" County", "", as.character(counties$county_name) )
+```
+
+```{r}
+library(dplyr)
+##convert the first served county into fip
+names(water_system)[11]<-"county_name"
+
+county1<-left_join(water_system,counties, by=c("county_name","state"))
+names(county1)[21]<-"state_fips_01"
+names(county1)[22]<-"county_fips_01"
+
+county1<-cbind(county1[21],county1[22])%>%as.data.frame()
+names(water_system)[11]<-"Counties.Served_01"
+
+county1<-paste(county1$state_fips_01,county1$county_fips_01,sep="")%>%as.data.frame()
+names(county1)<-paste("county1")
+
+##convert the second served county into fip
+names(water_system)[12]<-"county_name"
+county2<-left_join(water_system,counties, by=c("county_name","state"))
+names(county2)[21]<-"state_fips_02"
+names(county2)[22]<-"county_fips_02"
+
+county2<-cbind(county2[21],county2[22])%>%as.data.frame()
+names(water_system)[12]<-"Counties.Served_02"
+
+county2<-paste(county2$state_fips_02,county2$county_fips_02,sep="")%>%as.data.frame()
+names(county2)<-paste("county2")
+
+##convert the third served county into fip
+names(water_system)[13]<-"county_name"
+county3<-left_join(water_system,counties, by=c("county_name","state"))
+names(county3)[21]<-"state_fips_03"
+names(county3)[22]<-"county_fips_03"
+
+county3<-cbind(county3[21],county3[22])%>%as.data.frame()
+names(water_system)[13]<-"Counties.Served_03"
+
+county3<-paste(county3$state_fips_03,county3$county_fips_03,sep="")%>%as.data.frame()
+names(county3)<-paste("county3")
+
+##convert the 4th served county into fip
+names(water_system)[14]<-"county_name"
+county4<-left_join(water_system,counties, by=c("county_name","state"))
+names(county4)[21]<-"state_fips_04"
+names(county4)[22]<-"county_fips_04"
+
+county4<-cbind(county4[21],county4[22])%>%as.data.frame()
+names(water_system)[14]<-"Counties.Served_04"
+
+county4<-paste(county4$state_fips_04,county4$county_fips_04,sep="")%>%as.data.frame()
+names(county4)<-paste("county4")
+
+##convert the 5th served county into fip
+names(water_system)[15]<-"county_name"
+county5<-left_join(water_system,counties, by=c("county_name","state"))
+names(county5)[21]<-"state_fips_05"
+names(county5)[22]<-"county_fips_05"
+
+county5<-cbind(county5[21],county5[22])%>%as.data.frame()
+names(water_system)[15]<-"Counties.Served_05"
+
+county5<-paste(county5$state_fips_05,county5$county_fips_05,sep="")%>%as.data.frame()
+names(county5)<-paste("county5")
+
+##convert the 6th served county into fip
+names(water_system)[16]<-"county_name"
+county6<-left_join(water_system,counties, by=c("county_name","state"))
+names(county6)[21]<-"state_fips_06"
+names(county6)[22]<-"county_fips_06"
+
+county6<-cbind(county6[21],county6[22])%>%as.data.frame()
+names(water_system)[16]<-"Counties.Served_06"
+
+county6<-paste(county6$state_fips_06,county6$county_fips_06,sep="")%>%as.data.frame()
+names(county6)<-paste("county6")
+
+##convert the 7th served county into fip
+names(water_system)[17]<-"county_name"
+county7<-left_join(water_system,counties, by=c("county_name","state"))
+names(county7)[21]<-"state_fips_07"
+names(county7)[22]<-"county_fips_07"
+
+county7<-cbind(county7[21],county7[22])%>%as.data.frame()
+names(water_system)[17]<-"Counties.Served_07"
+
+county7<-paste(county7$state_fips_07,county7$county_fips_07,sep="")%>%as.data.frame()
+names(county7)<-paste("county7")
+
+##convert the 8th served county into fip
+names(water_system)[18]<-"county_name"
+county8<-left_join(water_system,counties, by=c("county_name","state"))
+names(county8)[21]<-"state_fips_08"
+names(county8)[22]<-"county_fips_08"
+
+county8<-cbind(county8[21],county8[22])%>%as.data.frame()
+names(water_system)[18]<-"Counties.Served_08"
+
+county8<-paste(county8$state_fips_08,county8$county_fips_08,sep="")%>%as.data.frame()
+names(county8)<-paste("county8")
+
+##convert the 9th served county into fip
+names(water_system)[19]<-"county_name"
+county9<-left_join(water_system,counties, by=c("county_name","state"))
+names(county9)[21]<-"state_fips_09"
+names(county9)[22]<-"county_fips_09"
+
+county9<-cbind(county9[21],county9[22])%>%as.data.frame()
+names(water_system)[19]<-"Counties.Served_09"
+
+county9<-paste(county9$state_fips_09,county9$county_fips_09,sep="")%>%as.data.frame()
+names(county9)<-paste("county9")
+
+##convert the 10th served county into fip
+names(water_system)[20]<-"county_name"
+county10<-left_join(water_system,counties, by=c("county_name","state"))
+names(county10)[21]<-"state_fips_10"
+names(county10)[22]<-"county_fips_10"
+
+county10<-cbind(county10[21],county10[22])%>%as.data.frame()
+names(water_system)[20]<-"Counties.Served_10"
+
+county10<-paste(county10$state_fips_10,county10$county_fips_10,sep="")%>%as.data.frame()
+names(county10)<-paste("county10")
+```
+
+```{r}
+install.packages("naniar")
+library(naniar)
+water_system<-cbind(water_system,county1,county2,county3,county4,county5,county6,county7,county8,county9,county10)
+
+write.csv(water_system,"water_system_v2.csv")
+```
+
+
